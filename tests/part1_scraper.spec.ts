@@ -16,7 +16,7 @@ test('Part 1: Scrape first 2 pages of products', async ({ page }) => {
 
     const allProducts = [...productsPage1, ...productsPage2];
 
-    // Format the output
+    // Formatear la salida
     const output = allProducts.map(p => `Name: ${p.name}\nPrice: ${p.price}\nLink: ${p.link}\n`).join('\n---\n\n');
 
     const filePath = path.join(__dirname, '..', 'scraped_products.txt');

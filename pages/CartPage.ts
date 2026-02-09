@@ -34,7 +34,7 @@ export class CartPage {
 
     async checkOut(details: { name: string; country: string; city: string; card: string; month: string; year: string }) {
         await this.placeOrderButton.click();
-        await this.page.waitForSelector('#orderModal.show'); // Wait for modal to pop up
+        await this.page.waitForSelector('#orderModal.show'); // Esperar a que aparezca el modal
 
         await this.nameInput.fill(details.name);
         await this.countryInput.fill(details.country);
@@ -45,7 +45,7 @@ export class CartPage {
 
         await this.purchaseButton.click();
 
-        // Wait for the success alert
+        // Esperar a la alerta de éxito
         await this.confirmationModal.waitFor({ state: 'visible' });
         const success = await this.confirmationModal.locator('h2').textContent();
 

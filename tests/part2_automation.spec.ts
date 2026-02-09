@@ -12,7 +12,7 @@ test.describe('Part 2: Automation', () => {
         const cartPage = new CartPage(page);
 
         await homePage.navigateTo();
-        await homePage.goToProduct('Samsung galaxy s6'); // Selecting a specific product
+        await homePage.goToProduct('Samsung galaxy s6'); // Seleccionando un producto específico
 
         await productPage.addToCart();
 
@@ -26,14 +26,14 @@ test.describe('Part 2: Automation', () => {
             year: '2025'
         });
 
-        // Verification happens inside checkOut via success modal check
+        // La verificación ocurre dentro de checkOut mediante la comprobación del modal de éxito
     });
 
     test('User can sign up (Optional 1)', async ({ page }) => {
         const username = `testuser_${Date.now()}`;
         const password = 'password123';
 
-        // Instantiate pages
+        // Instanciar páginas
         const homePage = new HomePage(page);
         const signupPage = new SignupPage(page);
 
@@ -43,8 +43,8 @@ test.describe('Part 2: Automation', () => {
     });
 
     test('User can log in (Optional 2)', async ({ page }) => {
-        // Need a valid user. I'll create one first or assume one exists.
-        // Making a new user to guarantee success
+        // Se necesita un usuario válido. Crearé uno primero o asumiré que existe.
+        // Creando un nuevo usuario para garantizar el éxito
         const username = `loginuser_${Date.now()}`;
         const password = 'password123';
 
@@ -55,10 +55,10 @@ test.describe('Part 2: Automation', () => {
         await homePage.navigateTo();
         await signupPage.signup(username, password);
 
-        // Now login
+        // Ahora iniciar sesión
         await loginPage.login(username, password);
 
-        // Verify login success by checking the username display
+        // Verificar el éxito del inicio de sesión comprobando la visualización del nombre de usuario
         await expect(page.locator('#nameofuser')).toHaveText(`Welcome ${username}`);
     });
 

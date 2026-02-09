@@ -9,7 +9,7 @@ export class HomePage {
 
     constructor(page: Page) {
         this.page = page;
-        // The products are loaded into #tbodyid
+        // Los productos se cargan en #tbodyid
         this.productCards = page.locator('#tbodyid .card');
         this.nextButton = page.locator('#next2');
         this.previousButton = page.locator('#prev2');
@@ -18,12 +18,12 @@ export class HomePage {
 
     async navigateTo() {
         await this.page.goto('https://www.demoblaze.com');
-        // Wait for product cards - more reliable than networkidle
+        // Esperar a las tarjetas de productos - más confiable que networkidle
         await this.productCards.first().waitFor({ state: 'visible', timeout: 10000 });
     }
 
     async getProductData() {
-        // Wait for at least one card to be visible
+        // Esperar a que al menos una tarjeta sea visible
         await this.productCards.first().waitFor({ state: 'visible' });
 
         const count = await this.productCards.count();
@@ -50,13 +50,13 @@ export class HomePage {
 
     async goToNextPage() {
         await this.nextButton.click();
-        // Verification that new products are loaded could be done by checking the first product changes or similar
-        // For this simple site, a fixed wait or networkidle is usually enough as it uses AJAX
+        // La verificación de que se cargaron nuevos productos podría hacerse comprobando si el primer producto cambia o similar
+        // Para este sitio simple, una espera fija o networkidle suele ser suficiente ya que usa AJAX
         await this.page.waitForTimeout(2000);
     }
 
     async goToProduct(productName: string) {
-        // Find product by text
+        // Buscar producto por texto
         const productLink = this.page.getByRole('link', { name: productName });
         await productLink.click();
     }

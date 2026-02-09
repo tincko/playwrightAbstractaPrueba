@@ -10,7 +10,7 @@ export class ProductPage {
     }
 
     async addToCart() {
-        // Listen for the dialog before clicking
+        // Escuchar el diálogo antes de hacer clic
         this.page.once('dialog', async (dialog) => {
             console.log(`Dialog message: ${dialog.message()}`);
             await dialog.accept();
@@ -18,6 +18,6 @@ export class ProductPage {
 
         await this.addToCartButton.click();
 
-        // Optionally wait for some visual confirmation if needed, but the alert is the main feedback
+        // Opcionalmente esperar alguna confirmación visual si es necesario, pero la alerta es la respuesta principal
     }
 }

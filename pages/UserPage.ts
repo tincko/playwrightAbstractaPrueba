@@ -21,7 +21,7 @@ export class LoginPage {
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
         await this.loginButton.click();
-        // Usually wait for modal to close or welcome message
+        // Usualmente esperar a que el modal se cierre o al mensaje de bienvenida
         await this.page.waitForSelector('#nameofuser', { state: 'visible' });
     }
 }
@@ -47,7 +47,7 @@ export class SignupPage {
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
 
-        // Setup dialog listener for "Sign up successful."
+        // Configurar listener de diálogo para "Sign up successful."
         const dialogPromise = this.page.waitForEvent('dialog');
         await this.signupButton.click();
         const dialog = await dialogPromise;
