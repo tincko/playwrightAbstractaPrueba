@@ -1,0 +1,63 @@
+import { Page, Locator } from '@playwright/test';
+
+export class HomePage {
+    readonly page: Page;
+    readonly productCards: Locator;
+    readonly nextButton: Locator;
+    readonly previousButton: Locator;
+    readonly cartLink: Locator;
+
+    constructor(page: Page) {
+        this.page = page;
+        // The products are loaded into #tbodyid
+        this.productCards = page.locator('#tbodyid .card');
+        this.nextButton = page.locator('#next2');
+        this.previousButton = page.locator('#prev2');
+        this.cartLink = page.locator('#cartur');
+    }
+
+    async navigateTo() {
+        await this.page.goto('https://www.demoblaze.com');
+        // Wait for product cards - more reliable than networkidle
+        await this.productCards.first().waitFor({ state: 'visible', timeout: 10000 });
+    }
+
+    async getProductData() {
+        // Wait for at least one card to be visible
+        await this.productCards.first().waitFor({ state: 'visible' });
+
+        const count = await this.productCards.count();
+        const products = [];
+
+        for (let i = 0; i < count; i++) {
+            const card = this.productCards.nth(i);
+            const nameElement = card.locator('.card-title a');
+            const priceElement = card.locator('h5');
+
+            const name = await nameElement.innerText();
+            const price = await priceElement.innerText();
+            const relativeLink = await nameElement.getAttribute('href');
+            const fullLink = `https://www.demoblaze.com/${relativeLink}`;
+
+            products.push({
+                name: name.trim(),
+                price: price.trim(),
+                link: fullLink
+            });
+        }
+        return products;
+    }
+
+    async goToNextPage() {
+        await this.nextButton.click();
+        // Verification that new products are loaded could be done by checking the first product changes or similar
+        // For this simple site, a fixed wait or networkidle is usually enough as it uses AJAX
+        await this.page.waitForTimeout(2000);
+    }
+
+    async goToProduct(productName: string) {
+        // Find product by text
+        const productLink = this.page.getByRole('link', { name: productName });
+        await productLink.click();
+    }
+}
